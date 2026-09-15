@@ -1,0 +1,169 @@
+{
+  "name": "Checkpoint 1 - Dairene Torres",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -864,
+        -192
+      ],
+      "id": "0eb4b35c-035c-4690-8e2d-9f40164aa662",
+      "name": "When chat message received",
+      "webhookId": "2542aae0-2353-45d4-a569-947d27546953"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Rol:\nEres un asistente corporativo especializado en gestión administrativa.\n\nÁmbito:\nTu función es analizar solicitudes de usuarios y proporcionar respuestas claras y profesionales.\n\nObjetivo:\nAyudar a los usuarios a obtener información y organizar tareas administrativas de forma eficiente.\n\nReglas:\n- Responde de forma clara y profesional.\n- Utiliza herramientas disponibles cuando sea necesario.\n- Si no tienes información suficiente, solicita aclaración.\n\nEscalamiento:\n- No tomes decisiones financieras.\n- No apruebes pagos.\n- No elimines registros.\n- Para acciones críticas, indica que se requiere revisión humana.",
+          "maxIterations": 5
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -688,
+        -176
+      ],
+      "id": "3a3fda74-f195-4768-ba84-fb50811f2c29",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -832,
+        32
+      ],
+      "id": "cc9e38d5-5a39-47e0-9470-fed4865aeda4",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Utiliza esta herramienta cuando el usuario solicite enviar comunicaciones por correo electrónico, compartir resultados de análisis, notificar eventos o remitir información a terceros.\n\nAntes de enviar un correo, verifica que el destinatario, asunto y contenido estén claramente definidos. Si falta información necesaria para completar el envío, solicita los datos faltantes al usuario.\n\nNo utilices esta herramienta para enviar mensajes sin autorización explícita del usuario.",
+        "sendTo": "dairene2005@gmail.com",
+        "subject": "Prueba AI Agent",
+        "message": "Mensaje enviado desde el AI Agent de n8n.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        -528,
+        48
+      ],
+      "id": "7f3dbb54-6500-4de2-9f11-b469ec80a4a2",
+      "name": "Send a message in Gmail",
+      "webhookId": "af8becda-7d9b-4a91-b16d-78eb4b8851c9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "y55qptXOKnGP30i3",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "dairene2005@gmail.com",
+        "subject": "Log AI Agent",
+        "message": "Ejecución completada del AI Agent.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -320,
+        -176
+      ],
+      "id": "cc9a9e47-5d5f-4c20-bd1e-4f55e286a192",
+      "name": "Send a message",
+      "webhookId": "14bb5f3c-ada1-4e47-8cde-570f71d92206",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "y55qptXOKnGP30i3",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "44c84d2e-039f-4988-9779-5017dfa6d269",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c33e467d88d7262f89b0c9732473f3dda484d1c2370078b94056e18f161b8123"
+  },
+  "nodeGroups": [],
+  "id": "96Cuferyl011TDUj",
+  "tags": []
+}
